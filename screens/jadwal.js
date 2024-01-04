@@ -56,7 +56,7 @@ const Jadwal = (props) => {
             renderItem={({item}) => (
                 <Card>
                     <Card.Image source={{
-                        uri:'https://awildgeographer.files.wordpress.com/2015/02/john_muir_glacier.jpg',
+                        uri:item.game_url,
                     }}/>
                     <Card.Title style={styles.title}>{item.game_name}</Card.Title>
                     <Text>{item.date}</Text>
@@ -73,6 +73,20 @@ const Jadwal = (props) => {
                     </View>
                     <Text>{item.location}</Text>
                     <Text style={styles.space}>{item.address}</Text>
+                    <View style={styles.buttonRow}>
+                    {item.creator == 1 ? (
+                      <View style={styles.button1}>
+                      <Button
+                          color="#FF0000"
+                          title='Delete'
+                          onPress={() =>{
+                              deleteSchedule(item.id.toString());
+                          }}
+                      />
+                      </View>
+                    ) : (
+                      <View></View>
+                    )}
                     <View style={styles.button2}>
                         <Button
                             style={styles.button2}
@@ -82,6 +96,7 @@ const Jadwal = (props) => {
                                 props.navigation.navigate("Chat",{schedule_id: item.id.toString(), game_name: item.game_name})
                             }}
                         />
+                    </View>
                     </View>
                 </Card>
             )}
@@ -112,6 +127,30 @@ const Jadwal = (props) => {
                   console.log(error);
                 } 
               }
+
+    const deleteSchedule = (schedule_id) =>{
+      const options = {
+        method: 'POST',
+        headers: new Headers({
+         'Content-Type': 'application/x-www-form-urlencoded'
+        }),
+        body: "schedule_id="+schedule_id
+       };
+            try {
+              fetch('https://ubaya.me/flutter/160420011/uas/delete_schedules.php',options)
+                .then(response => response.json())
+                .then(resjson =>{
+                  if(resjson.result == "success"){
+                    alert("Sukses hapus jadwal");
+                    fetchData();
+                  }else{
+                    alert("error");
+                  }
+                });
+            } catch (error) {
+              console.log(error);
+            } 
+    }
 
     if (noData) {
       return (
@@ -211,6 +250,13 @@ const Jadwal = (props) => {
     },
     button: {
         width: 100, 
+    },
+    buttonRow: {
+      flexDirection:"row",
+    },
+    button1: {
+      width: 100,
+      marginRight: 'auto',
     },
     button2: {
         width: 100,

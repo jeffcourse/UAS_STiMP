@@ -51,7 +51,7 @@ class Cari extends React.Component {
                   <Card>
                     <Card.Image
                       source={{
-                        uri: 'https://awildgeographer.files.wordpress.com/2015/02/john_muir_glacier.jpg',
+                        uri:item.game_url,
                       }}
                     />
                     <Card.Title style={styles.title}>{item.game_name}</Card.Title>
@@ -72,6 +72,20 @@ class Cari extends React.Component {
                     </View>
                     <Text>{item.location}</Text>
                     <Text style={styles.space}>{item.address}</Text>
+                    <View style={styles.buttonRow}>
+                    {item.creator == 1 ? (
+                      <View style={styles.button1}>
+                      <Button
+                          color="#FF0000"
+                          title='Delete'
+                          onPress={() =>{
+                              this.deleteSchedule(item.id.toString());
+                          }}
+                      />
+                      </View>
+                    ) : (
+                      <View></View>
+                    )}
                     {item.is_current_user == 1 ? (
                       <View style={styles.button2}>
                         <Button
@@ -92,6 +106,7 @@ class Cari extends React.Component {
                         />
                       </View>
                     )}
+                    </View>
                   </Card>
                 )
             }
@@ -155,6 +170,30 @@ class Cari extends React.Component {
                   console.log(error);
                 } 
               }
+
+    deleteSchedule = (schedule_id) =>{
+      const options = {
+        method: 'POST',
+        headers: new Headers({
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }),
+        body: "schedule_id="+schedule_id
+      };
+      try {
+        fetch('https://ubaya.me/flutter/160420011/uas/delete_schedules.php',options)
+          .then(response => response.json())
+          .then(resjson =>{
+          if(resjson.result == "success"){
+            alert("Sukses hapus jadwal");
+            fetchData();
+          }else{
+            alert("error");
+          }
+        });
+      } catch (error) {
+          console.log(error);
+      } 
+    }
 
     render() {
         return <View style={{ flex: 1 }}><ScrollView style={{ paddingBottom: 80}}>
@@ -251,6 +290,13 @@ class Cari extends React.Component {
     },
     button: {
         width: 100, 
+    },
+    buttonRow: {
+      flexDirection:"row",
+    },
+    button1: {
+      width: 100,
+      marginRight: 'auto',
     },
     button2: {
         width: 100,
