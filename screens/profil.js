@@ -116,6 +116,18 @@ const Profil = (props) => {
                 }
               />
       </View>
+      <Card.Divider style={styles.divider}></Card.Divider>
+      <View style={styles.buttonReset}>
+            <Button title="Reset Password"
+                color="#FF0000"
+                onPress={()=>
+                  {
+                    const {navigation} = props;
+                    props.navigation.navigate("Reset");
+                  }
+                }
+              />
+      </View>
        </Card>
       );
     };
@@ -132,6 +144,11 @@ const Profil = (props) => {
        },
        button: {
         width:100, 
+        marginLeft: 'auto',
+        paddingRight: 8,
+       },
+       buttonReset: {
+        width:'100%', 
         marginLeft: 'auto',
         paddingRight: 8,
        },
@@ -153,6 +170,10 @@ const Profil = (props) => {
         borderWidth: 2,
         borderColor: 'black',
       },
+      divider: {
+        paddingTop: 10,
+        paddingBottom: 10
+      }
     })
 
     export default Profil;

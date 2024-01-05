@@ -12,6 +12,7 @@ import Profil from './screens/profil';
 import Signup from './screens/signup';
 import Chat from './screens/chat';
 import BuatJadwal from './screens/buatjadwal';
+import Reset from './screens/reset';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -95,6 +96,7 @@ render(){
         <Drawer.Screen name="Jadwal" component={NavJadwal} />
         <Drawer.Screen name="Cari" component={NavCari} />
         <Drawer.Screen name="Profil" component={Profil} />
+        <Drawer.Screen name="Reset" component={Reset} />
       </Drawer.Navigator>
     </NavigationContainer>
   );
